@@ -1,0 +1,295 @@
+{% extends "reporter/reporter_base.html" %}
+{% load static %}
+
+
+{% block extra_head_tags %}
+<title>Report List | My Computes</title>
+<!-- bztables -->
+<link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/bztables.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/inner.css' %}" async>
+<link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/bzinfinite.css' %}" async>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/spotlight.css' %}" async>
+ <link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/particle.css' %}" async>
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var message = sessionStorage.getItem('success_message');
+        if (message) {
+            document.getElementById('message').innerText = message;
+            // Clear the message from storage to avoid showing it again on page reload
+            sessionStorage.removeItem('success_message');
+            var successalert = $('.successalert');
+            successalert.show();
+        }
+    });
+</script>
+
+
+ <style>
+
+   .main-callout {
+       min-height: 15rem;
+       max-height: 15rem;
+       clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 100%, 50% 97%, 0% 100%);
+   }
+
+   .main-title {
+   position: absolute;
+   margin: 0;
+   padding: 0;
+   color: #f9f1e9;
+   text-align: center;
+   top: 50%;
+   left: 50%;
+   -webkit-transform: translate3d(-50%,-50%,0);
+   transform: translate3d(-50%,-50%,0);
+   }
+
+   .main-title {
+   text-transform: uppercase;
+   font-size: 2.2rem;
+   letter-spacing: 0.1em;
+   }
+
+   .main-title .thin {
+   font-weight: 200;
+   }
+
+   @media only screen and (max-width : 768px) {
+   .main-title {
+    font-size: 1rem;
+   }
+   }
+
+   element.style {
+     position: absolute;
+ }
+
+ </style>
+
+ <style>
+   .analytics h2 {
+       font-size: 0.9rem;
+       text-align: center;
+       color: #193d5e;
+       font-weight: 700;
+       background: #e9e9e9;
+   }
+
+   .analytics small {
+     font-size: .75rem;
+     color: #838383;
+   }
+
+   .analytics {
+       box-shadow: 0 0 .2rem rgba(0, 0, 0, 0.3);
+       justify-content: space-between;
+       opacity: 1;
+       max-width: 23% !important;
+       margin: 1%;
+       padding: 1rem;
+   }
+
+   @media only screen and (max-width: 1025px) and (min-width: 541px) {
+     .analytics {
+         max-width: 48% !important;
+     }
+   }
+
+   @media only screen and (max-width: 541px) {
+     .analytics {
+         max-width: 98% !important;
+     }
+   }
+ </style>
+{% endblock %}
+
+
+
+{% block post_content %}
+
+<div class="row p-3 main-callout mt-5 pt-5 particle-network-animation element">
+
+      <h1 class="main-title mt-4">Report <span class="thin">Manager</span></h1>
+
+</div>
+
+
+<div class="container pb-5">
+{% if messages %}
+<ul class="messages mt-3">
+    {% for message in messages %}
+    <li{% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible"{% endif %}>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          </button>
+          {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<!-- ajax message -->
+<div class="alert alert-success alert-dismissible successalert mt-3" style="display:none;">
+  <div id="message">
+  </div>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+  </button>
+</div>
+
+
+<div class="row static_row mt-5">
+      <div class="col-md-8 col-12">
+        <h2 class="static_row_headers">Resource Manager </h2>
+      </div>
+      <div class="col-md-4 col-12">
+        <a aria-label="Add new Report" href="{% url 'reporter:create' %}">
+          <button anim="ripple" class="m-ripple-button5 m-auto d-block float-md-end wide-ripple"> <i class="fa-solid fa-file-circle-plus fa-fw"></i> Create Report</button>
+        </a>
+
+      </div>
+</div>
+
+
+<div class="row">
+  <div class="col mt-3">
+      <p class="text-center">
+        <b><i class="fa-solid fa-wrench fa-fw"></i> Manage Reports</b><br/>
+         View, update, or delete resources. Search by category and title.
+      </p>
+  </div>
+</div>
+
+<div class="row mb-3">
+      <div class="col-12">
+        <hr>
+        <form class="form-inline d-flex justify-content-center md-form form-sm mt-0 mb-4 vendor_form" action="" method="GET">
+
+
+            <div class="input-select">
+              <select aria-label="Active Status" class="form-control form-select" data-trigger="" name="Stype">
+                <option placeholder="Active Status" selected disabled>Report Status</option>
+                <option>Active</option>
+                <option>Inactive</option>
+              </select>
+            </div>
+
+
+            <input class="w-50 VendorSearch_field form-control" type="text" name ='Gsearch' placeholder="Search" aria-label="Search">
+            <button aria-label="Submit Search" class="btn btn-md btn-fill m-button1" type="submit" name="">
+              <i class="fas fa-search" aria-hidden="true"></i>
+            </button>
+        </form>
+        <hr>
+      </div>
+
+
+
+
+</div>
+
+
+
+
+
+<section id="section-table3">
+      <div id="show_content" style="display:none;" class="container">
+        <div class="row">
+        <table class="table table-striped table-hover table-responsive-stack text-center infinite-container infinite-container_c1">
+        <thead>
+        <tr>
+        <th class="text-lg-start bz5-col-1"></th>
+        <th class="text-lg-start bz5-col-2">Title</th>
+        <th class="bz5-col-3">Active</th>
+        <th class="bz5-col-4">Created/Modified</th>
+        <th class="bz5-col-5">Manage</th>
+        </tr>
+        </thead>
+        <tbody id="groups">
+
+
+        {% for report in object_list %}
+        <tr class="infinite-item infinite-item_c2">
+          <td class="text-lg-start bz5-col-1">
+            <img src="{{report.front_image.url}}" style="max-height: 88px; display: block; margin: auto;">
+
+          </td>
+          <td class="text-lg-start bz5-col-2">
+              <span style ="text-transform:capitalize;">
+                <a title="View {{ report.brand }}" href="{% url 'reporter:single' slug=report.slug %}" class="icon_btns">
+                  {{ report.brand }} | {{ report.product_name }}
+                </a>
+                <br><small class="text-muted">Type: {{report.product_type}}</small>
+              </span>
+          </td>
+          <td class="bz5-col-3">{{report.is_active}}</td>
+          <td class="bz5-col-4">
+            <span id="showtime{{forloop.counter}}" style="display:none;">
+              {% if report.last_modified %}
+                  <time id ="foldermodifiedtime" class="date2">
+                  {{report.last_modified|date:'c'}}
+                  </time>
+              {% else %}
+                  <time id ="foldercreationtime" class="date2">
+                  {{report.created_at|date:'c'}}
+                  </time>
+              {% endif %}
+              <br><small class="text-muted">ABV: {{report.abv}}% | {{report.milliliters}} (mL) | {{report.fl_oz}} (fl oz) | Warning? {{report.warning_label}}</small>
+
+            </span>
+          </td>
+          <td class="bz5-col-5">
+            <a title="View Report of {{ report.brand }}" data-bs-toggle="tooltip" data-bs-placement="top" class="btn-sm btn-primary ps-1 pe-1" href="{% url 'reporter:single' slug=report.slug %}" class="icon_btns">
+              <i class="fa-solid fa-magnifying-glass-plus fa-fw"></i></a>
+
+
+
+
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">No Results Found</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+
+    </div>
+</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<div class="loading" style="display: none;">
+    <div class="loading_line"><p class="text-center pt-1 mx-auto">😎 Loading...</p></div>
+</div>
+
+
+{% if page_obj.has_next %}
+<a aria-label="View Page {{next_page_number}}" class="infinite-more-link text-center" href="?page={{ page_obj.next_page_number }}&Gsearch={{ Gsearch }}&Atype={{ Atype }}&Stype={{ Stype }}">View More Posts</a>
+{% endif %}
+
+
+
+
+</div>
+
+{% endblock %}
+
+
+{% block extra_footer_tags %}
+<script src="{% static 'MASTER/js/bzinfinite.js'%}" type="text/javascript" ></script>
+<script src="{% static 'MASTER/js/infinite.min.js'%}" type="text/javascript" ></script>
+<script src="{% static 'MASTER/js/bzparticle.js'%}" type="text/javascript" ></script>
+<script src="{% static 'MASTER/js/bzspotlight.js'%}" type="text/javascript" ></script>
+{% endblock %}

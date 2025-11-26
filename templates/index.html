@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head_tags %}
+<title>MyComputes</title>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<link rel="canonical" href="{{ request.get_full_path }}"/>
+<meta property="og:title" content="#">
+<meta name="twitter:title" content="#" />
+<meta name="description" content="#">
+<meta property="og:description" content="#">
+<meta name="twitter:description" content="#" />
+
+<script type='application/ld+json'>
+{
+  "@context": "http://www.schema.org",
+  "@type": "WebSite",
+  "name": "#",
+  "url": "{{ request.get_full_path }}"
+}
+ </script>
+
+ <link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/home.css' %}" async>
+ <link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/spotlight.css' %}" async>
+  <link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/particle.css' %}" async>
+
+  <style>
+    .element {
+    z-index: 100;
+  }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid p-0">
+
+    <div class="row">
+
+        <div class="col-8 home-left particle-network-animation element">
+           <h1 class="main-title">My <span class="thin">Computes Solutions</span></h1>
+
+        </div>
+
+        <div class="col-4 home-right d-flex flex-grow-1 justify-content-center align-items-center">
+
+          <div class="row d-flex flex-grow-1 justify-content-center align-items-center">
+
+
+              <div class="col-12">
+                  <h2></h2>
+              </div>
+
+
+              <div class="col-12">
+                      <a aria-label="Account Registration" href="{% url 'reporter:create' %}">
+                        <button anim="ripple" class="m-ripple-button3 m-auto d-block float-md-end wide-ripple"> <i class="fa-solid fa-file-circle-plus fa-fw"></i> Create Report</button>
+                      </a>
+              </div>
+
+              <div class="col-12 mt-3">
+                      <a aria-label="Login" href="{% url 'reporter:reports' %}">
+                        <button anim="ripple" class="m-ripple-button4 m-auto d-block float-md-end wide-ripple"> <i class="fa-solid fa-border-all fa-fw"></i> Match List</button>
+                      </a>
+              </div>
+
+          </div>
+
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block extra_footer_tags %}
+
+<script src="{% static 'MASTER/js/bzparticle.js'%}" type="text/javascript" ></script>
+<script src="{% static 'MASTER/js/bzspotlight.js'%}" type="text/javascript" ></script>
+
+{% endblock %}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=4.0, user-scalable=yes">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/mycomputes-icon.png' %}"/>
+    {% block extra_head_tags %}{% endblock %}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/nav.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/master.css' %}" async>
+    <link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/sidenav.css' %}" async>
+
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+      <style>
+        svg.main-nav-icon {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            max-width: 1rem;
+        }
+      </style>
+
+
+</head>
+
+  <body>
+
+
+    <nav id="mars_nav" class="navbar stick-to-top navbar-expand-lg navbar-dark mars_nav">
+
+    <div class="container">
+      <div class="the_top_bar">
+        <div class="row_in_top">
+            <div class="col-in_top top-left">
+                <span><a href="#">Compute Maker</a></span>
+            </div>
+            <div class="col-in_top">
+            </div>
+        </div>
+      </div>
+
+      <div class="mx-auto w-100 w-lg-auto" id="whole-nav-wrapper">
+
+              <a title="My Computes" class="navbar-brand mx-auto" href="{% url 'home' %}" style="color: #000; font-weight: 700;"><img id="mars_logo" class ="main_logo" src="{% static 'images/mycomputes.png' %}" alt=" MyComputes logo"> My Computes</a>
+
+
+            <div class="nav-wrapper" anim="ripple" id="mobile-mars-wrapper">
+                <div id="nav-icon3" class="mars_mobile_nav1" data-bs-toggle="collapse" data-bs-target=".dual-collapse2">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+            </div>
+
+      </div>
+
+
+
+
+
+        <div class="navbar-collapse collapse mx-auto dual-collapse2" style="max-width: -webkit-fill-available;">
+
+
+                   <ul class="navbar-nav ms-auto navbar-nav-scroll" id="nav-ul-1">
+
+
+
+                     <!-- <li class="nav-item mars_mobile_nav1">
+                        <a title='Dashboard' class="nav-item nav-link" anim="ripple" href="{% url 'reporter:create' %}">
+
+                          <svg class="main-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M96 0C60.7 0 32 28.7 32 64l0 384c0 35.3 28.7 64 64 64l180 0c-22.7-31.5-36-70.2-36-112 0-100.6 77.4-183.2 176-191.3l0-38.1c0-17-6.7-33.3-18.7-45.3L290.7 18.7C278.7 6.7 262.5 0 245.5 0L96 0zM357.5 176L264 176c-13.3 0-24-10.7-24-24L240 58.5 357.5 176zM432 544a144 144 0 1 0 0-288 144 144 0 1 0 0 288zm16-208l0 48 48 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-48 0 0 48c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-48-48 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l48 0 0-48c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
+                          Create Report </a>
+                      </li>
+
+
+                         <li class="nav-item mars_mobile_nav1">
+                            <a title='Dashboard' class="nav-item nav-link" anim="ripple" href="{% url 'reporter:reports' %}">
+
+                              <svg class="main-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M448 96V224H288V96H448zm0 192V416H288V288H448zM224 224H64V96H224V224zM64 288H224V416H64V288zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z"/></svg>
+                              Match List </a>
+                          </li> -->
+
+
+
+
+                      <li class="nav-item admin-dash-nav" id="admin-dash1">
+                            <span class="ps-2 pe-2" style="font-size:30px;cursor:pointer" onclick="openNav()"> &#9776;</span>
+
+                         </li>
+
+
+                         <div id="mySidenav" class="sidenav">
+                          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+
+                          <a class="sidenav-link" href="{% url 'reporter:create' %}"><i class="fa-solid fa-file-circle-plus"></i> Create Report</a>
+
+
+                          <a class="sidenav-link" href="{% url 'reporter:reports' %}"><i class="fa-solid fa-border-all fa-fw"></i> Match List</a>
+
+
+
+                  </ul>
+
+              </div>
+
+
+
+
+    </div>
+    </nav>
+
+
+
+
+
+
+
+            {% block content %}
+            {% endblock %}
+
+
+
+      <div onclick="topFunction()" id="myBtn" title="Go to top" class="myUpBtn2"><i class="far fa-caret-square-up"></i></div>
+
+</body>
+
+
+
+
+
+    <footer>
+
+          <div class="col-12 verybottom1">
+            <p class="mb-0"><small>Copyright © <span id="year"></span> <img loading="lazy" src="{% static 'images/mycomputes-icon.png' %}" alt="Icon" style="width: 1rem;margin: 0rem .5rem;"> All Rights Reserved • Powered by Brandon Lippincott</small></p>
+          </div>
+
+
+      <!-- Font Awesome -->
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+      <!-- jquery -->
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+
+      <!-- my jQuery -->
+      <script src="{% static 'MASTER/js/master.js'%}" type="text/javascript" ></script>
+      <script src="{% static 'MASTER/js/nav.js'%}" type="text/javascript" ></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+
+      <!-- waypoints js -->
+      <script src="{% static 'MASTER/js/jquery.waypoints.min.js'%}" type="text/javascript" ></script>
+
+      <!-- sidenav js -->
+      <script src="{% static 'MASTER/js/sidenav.js'%}" type="text/javascript" ></script>
+
+      {% block extra_footer_tags %}{% endblock %}
+
+    </footer>

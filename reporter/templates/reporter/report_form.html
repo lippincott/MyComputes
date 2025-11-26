@@ -1,0 +1,329 @@
+{% extends "reporter/reporter_base.html" %}
+{% load static %}
+
+
+{% block extra_head_tags %}
+<title>Create New Report | My Computes</title>
+<link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/forms.css' %}" async>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+{% endblock %}
+
+{% block post_content %}
+
+<div class="container">
+
+<div class="row">
+
+    <div class="col-12 mt-5 mb-5">
+
+    </div>
+</div>
+
+
+<div class="row static_row mt-5">
+      <div class="col-md-8 col-12">
+        <p class="static_row_headers p-0 mb-0">
+          <b>New Report</b>
+          <br>Fill in the form to create a new report.
+        </p>
+      </div>
+      <div class="col-md-4 col-12">
+        <a aria-label="Report List" href="{% url 'reporter:reports' %}">
+          <button anim="ripple" class="m-ripple-button5 m-auto d-block float-md-end wide-ripple mb-3"> <svg class="main-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M448 96V224H288V96H448zm0 192V416H288V288H448zM224 224H64V96H224V224zM64 288H224V416H64V288zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z"/></svg> Report List</button>
+        </a>
+      </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-8 col-12 mt-3 mb-5">
+
+      <h1>Report Creation Form</h1>
+      <hr>
+
+      <div id="alert-container"></div>
+
+        <form method="POST" action="{% url 'reporter:create' %}" id="postForm1" enctype='multipart/form-data'>
+          {% if form.errors %}
+          <ul class="errorlist">
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li><strong>{{ field.label }}</strong>: {{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+
+            {% csrf_token %}
+
+
+
+            <lottie-player class="second_answersloading" src="{% static 'images/json/thinking.json'%}" background="transparent"  speed="1"  style="width: 5rem;height: auto; display: none;" loop autoplay></lottie-player>
+            <div id="advisory" class="text-center m-auto" style="display: none;">
+                <p class="text-center">Please be patient... This can take a moment.</p>
+                <small class="text-center"><b>DO NOT CLOSE OR PRESS BACK</b>.</small>
+            </div>
+
+
+<div id="mainformsection">
+
+          <div class="mb-3 GreyBox">
+            <div class="form-check form-switch">{{form.is_active}}<label class="form-check-label" for="id_is_active">Active</label></div></div>
+
+
+
+          <div>
+              <h3 class="greenline">Content</h3>
+          </div>
+
+
+
+
+<div class="row">
+          <div class="col-md-6 col-12 mb-3"><label class="form-label" for="brand">Brand</label>{{form.brand}}
+
+            {% for error in form.brand.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="col-md-6 col-12 mb-3"><label class="form-label" for="product_name">Product Name</label>{{form.product_name}}
+
+            {% for error in form.product_name.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+          </div>
+</div>
+
+<div class="row">
+
+    <div class="mb-3 col-md-6 col-12"><label class="form-label" for="id_type">Product Type</label>{{form.product_type}}
+      {% for error in form.product_type.errors %}
+          <p style="color: red">{{ error }}</p>
+      {% endfor %}
+
+    </div>
+
+
+    <div class="col-md-6 col-12 mb-3"><label class="form-label" for="abv">Alcohol By Volume (ABV) %</label>{{form.abv}}
+
+      {% for error in form.abv.errors %}
+          <p style="color: red">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+</div>
+
+
+<div class="row">
+
+          <div class="col-md-6 col-12 mb-3"><label class="form-label" for="abv">Milliliters (mL) </label>{{form.milliliters}}
+
+            {% for error in form.milliliters.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+
+          <div class="col-md-6 col-12 mb-3"><label class="form-label" for="abv">Fluid Ounces (fl oz) </label>{{form.fl_oz}}
+
+            {% for error in form.fl_oz.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+          </div>
+</div>
+
+
+
+          <div class="mb-3"><label class="form-label" for="abv">Has Warning Label</label>{{form.warning_label}}
+
+            {% for error in form.warning_label.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3"><label class="form-label" for="abv">Warning Text (Optional)</label>{{form.warning_text}}
+
+            {% for error in form.warning_text.errors %}
+                <p style="color: red">{{ error }}</p>
+            {% endfor %}
+          </div>
+
+
+          <div>
+              <h3 class="greenline">Uploads</h3>
+          </div>
+
+
+          <div class="GreyBox">
+              <div class="form-group">
+                <div class="mb-3"><label class="form-label" for="id_main_image">Front Label</label><br>
+                  {{form.front_image}}
+                </div>
+
+                  {% if report.front_image %}
+                      <b>Current File:</b><br/>
+                      <div class="current_file">
+                          {{report.front_image}}
+                      </div>
+                      <a href="{{report.front_image.url}}"  target="_blank" class="mt-3 mb-3 btn btn-sm m-button1">
+                      View File
+                      </a>
+
+                      <input type="checkbox" name="front_image-clear" id="front_image-clear_id">
+                      <label for="front_image-clear_id">Clear</label>
+                      <br/>
+                  {% endif %}
+
+                  <small>
+                    <b>Acceptable File Types</b>: .png, .jpeg, .jpg only<br>
+                    <b>File Size</b>: Recommended no bigger than 5MB.
+                  </small>
+
+                </div>
+          </div>
+
+
+
+          <div class="GreyBox">
+              <div class="form-group">
+                <div class="mb-3"><label class="form-label" for="id_back_image">Back Label</label><br>
+                  {{form.back_image}}
+                </div>
+
+                  {% if report.back_image %}
+                      <b>Current File:</b><br/>
+                      <div class="current_file">
+                          {{report.back_image}}
+                      </div>
+                      <a href="{{report.back_image.url}}"  target="_blank" class="mt-3 mb-3 btn btn-sm m-button1">
+                      View File
+                      </a>
+
+                      <input type="checkbox" name="back_image-clear" id="back_image-clear_id">
+                      <label for="back_image-clear_id">Clear</label>
+                      <br/>
+                  {% endif %}
+
+                  <small>
+                    <b>Acceptable File Types</b>: .png, .jpeg, .jpg only<br>
+                    <b>File Size</b>: Recommended no bigger than 5MB.
+                  </small>
+
+                </div>
+          </div>
+
+
+</div>
+
+
+              <button type="submit" anim="ripple" class="m-ripple-button5 m-auto d-block float-md-end wide-ripple mb-3 mt-5 btn" id="mainupload">
+                <span class="firstvisible1">Create Report</span>
+                <lottie-player class="secondvisible1" src="{% static 'images/json/loading-spinner1.json'%}" background="transparent"  speed="1"  style="width: 20px; height: 21px; display: none;" loop autoplay></lottie-player>
+              </button>
+
+
+            </form>
+
+    </div>
+
+
+    <div class="col-md-4 col-12 mt-3 mb-5 instructions-bar">
+        <h2><i class="fa-solid fa-circle-info fa-fw"></i> Instructions</h2>
+
+        <p class="instructions">
+          <b>Active?</b><br>
+          Uncheck to make the report inactive.
+        </p>
+
+        <p class="instructions">
+          <b>Brand</b><br>
+          Name of Product Brand.
+        </p>
+
+        <p class="instructions">
+          <b>Product</b><br>
+          Name of Product
+        </p>
+
+        <p class="instructions">
+          <b>Product Type</b><br>
+          Please select the Product Type.
+        </p>
+
+        <p class="instructions">
+          <b>% of Alcohol by Volume</b><br>
+          Enter percentage of Alcohol by Volume (ABV)
+        </p>
+
+        <p class="instructions">
+          <b>Milliliters of Fluid</b><br>
+          Enter as Millileters (mL)
+        </p>
+
+        <p class="instructions">
+          <b>Fluid Ounces</b><br>
+          Enter as fluid ounces (fl oz)
+        </p>
+
+
+        <p class="instructions">
+          <b>Front Label</b><br>
+          Picture of Label on Front of Product
+        </p>
+
+        <p class="instructions">
+          <b>Back Label</b><br>
+          Picture of Label on Back of Product (if applicable)
+        </p>
+
+
+
+    </div>
+
+</div>
+
+
+
+</div>
+{% endblock %}
+
+
+{% block extra_footer_tags %}
+<script src="{% static 'MASTER/js/uploader.js'%}" type="text/javascript" ></script>
+
+<script>
+  const mlInput = document.getElementById('id_milliliters');
+  const ozInput = document.getElementById('id_fl_oz');
+
+  const ML_TO_OZ = 0.033814;
+  const OZ_TO_ML = 29.5735;
+
+  let lastEdited = null;
+
+  mlInput.addEventListener('input', () => {
+    lastEdited = 'ml';
+    const ml = parseFloat(mlInput.value);
+
+    if (!isNaN(ml)) {
+      ozInput.value = (ml * ML_TO_OZ).toFixed(2);
+    } else {
+      ozInput.value = '';
+    }
+  });
+
+  ozInput.addEventListener('input', () => {
+    lastEdited = 'oz';
+    const oz = parseFloat(ozInput.value);
+
+    if (!isNaN(oz)) {
+      mlInput.value = (oz * OZ_TO_ML).toFixed(2);
+    } else {
+      mlInput.value = '';
+    }
+  });
+</script>
+
+{% endblock %}

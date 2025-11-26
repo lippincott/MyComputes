@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="mycontent">
+  {% block prepost %}{% endblock %}
+  {% block post_content %}{% endblock %}
+  {% block postpost %}{% endblock %}
+</div>
+
+{% endblock %}

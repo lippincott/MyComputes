@@ -1,0 +1,43 @@
+h4 {
+    font-size: 1rem !important;
+    color: #4284ac !important;
+}
+
+.instructions-bar {
+    background: #f4f4f4;
+    padding: 1rem;
+}
+
+.instructions {
+    border-bottom: 1px solid #4284ac;
+    padding-bottom: 1rem;
+}
+
+.counter1 div {
+    display: inline;
+}
+
+.greenline {
+    margin-top: 0rem;
+    margin-bottom: .5rem;
+    border-top: 2px solid #4284ac;
+    border-bottom: 1px solid #4284ac;
+    padding: 1rem;
+    background: #f0faff;
+}
+
+.GreyBox {
+    background: #e9e9e9;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #b6b6b6;
+    border-radius: 0.1rem;
+}
+
+input#og-question1 {
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+    border-color: #659bba;
+    outline: 0;
+    box-shadow: 0 0 0 .1rem rgb(13 110 253 / 9%);
+}

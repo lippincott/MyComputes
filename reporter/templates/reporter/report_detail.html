@@ -1,0 +1,633 @@
+{% extends "reporter/reporter_base.html" %}
+{% load static %}
+
+
+{% block extra_head_tags %}
+<title>Report List | My Computes</title>
+<!-- bztables -->
+<link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/bztables.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/inner.css' %}" async>
+<link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/bzinfinite.css' %}" async>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/spotlight.css' %}" async>
+ <link rel="stylesheet" type="text/css" href="{% static 'MASTER/css/particle.css' %}" async>
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var message = sessionStorage.getItem('success_message');
+        if (message) {
+            document.getElementById('message').innerText = message;
+            // Clear the message from storage to avoid showing it again on page reload
+            sessionStorage.removeItem('success_message');
+            var successalert = $('.successalert');
+            successalert.show();
+        }
+    });
+</script>
+
+
+ <style>
+
+   .main-callout {
+       min-height: 15rem;
+       max-height: 15rem;
+       clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 100%, 50% 97%, 0% 100%);
+   }
+
+   .main-title {
+   position: absolute;
+   margin: 0;
+   padding: 0;
+   color: #f9f1e9;
+   text-align: center;
+   top: 50%;
+   left: 50%;
+   -webkit-transform: translate3d(-50%,-50%,0);
+   transform: translate3d(-50%,-50%,0);
+   }
+
+   .main-title {
+   text-transform: uppercase;
+   font-size: 2.2rem;
+   letter-spacing: 0.1em;
+   }
+
+   .main-title .thin {
+   font-weight: 200;
+   }
+
+   @media only screen and (max-width : 768px) {
+   .main-title {
+    font-size: 1rem;
+   }
+   }
+
+   element.style {
+     position: absolute;
+ }
+
+ </style>
+
+ <style>
+   .analytics h2 {
+       font-size: 0.9rem;
+       text-align: center;
+       color: #193d5e;
+       font-weight: 700;
+       background: #e9e9e9;
+   }
+
+   .analytics small {
+     font-size: .75rem;
+     color: #838383;
+   }
+
+   .analytics {
+       box-shadow: 0 0 .2rem rgba(0, 0, 0, 0.3);
+       justify-content: space-between;
+       opacity: 1;
+       max-width: 23% !important;
+       margin: 1%;
+       padding: 1rem;
+   }
+
+   @media only screen and (max-width: 1025px) and (min-width: 541px) {
+     .analytics {
+         max-width: 48% !important;
+     }
+   }
+
+   @media only screen and (max-width: 541px) {
+     .analytics {
+         max-width: 98% !important;
+     }
+   }
+ </style>
+{% endblock %}
+
+
+
+{% block post_content %}
+
+<div class="row p-3 main-callout mt-5 pt-5 particle-network-animation element">
+
+      <h1 class="main-title mt-4">Report <span class="thin">Detail</span></h1>
+
+</div>
+
+
+<div class="row static_row mt-5">
+      <div class="col-md-4 col-12">
+        <h2 class="static_row_headers">Report Manager </h2>
+      </div>
+
+      <div class="col-md-4 col-12">
+            <a aria-label="Report List" href="{% url 'reporter:reports' %}">
+              <button anim="ripple" class="m-ripple-button5 m-auto d-block float-md-end wide-ripple mb-3"> <svg class="main-nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M448 96V224H288V96H448zm0 192V416H288V288H448zM224 224H64V96H224V224zM64 288H224V416H64V288zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z"/></svg> Report List</button>
+            </a>
+      </div>
+
+
+      <div class="col-md-4 col-12">
+        <a aria-label="Add new Report" href="{% url 'reporter:create' %}">
+          <button anim="ripple" class="m-ripple-button5 m-auto d-block float-md-end wide-ripple"> <i class="fa-solid fa-file-circle-plus fa-fw"></i> Create Report</button>
+        </a>
+
+      </div>
+</div>
+
+
+
+
+
+<div class="container my-4">
+
+  <!-- HEADER -->
+  <div class="row g-3 align-items-start mb-4">
+    <div class="col-md-7">
+      <h1 class="h4 mb-1">
+        {{ report.brand|default:"Untitled Brand" }}
+      </h1>
+      <p class="mb-3 text-muted">
+        {{ report.product_name|default:"No product name" }}
+      </p>
+
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <span class="badge {{ report.is_active|yesno:'bg-success,bg-secondary' }}">
+          {% if report.is_active %}Active{% else %}Inactive{% endif %}
+        </span>
+
+        <span class="badge bg-light text-muted border">
+          Created: {{ report.created_at|date:"Y-m-d H:i" }}
+        </span>
+
+        {% if report.last_modified %}
+        <span class="badge bg-light text-muted border">
+          Updated: {{ report.last_modified|date:"Y-m-d H:i" }}
+        </span>
+        {% endif %}
+
+        <span class="badge bg-dark">
+          Type: {{ report.product_type }}
+        </span>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="d-flex flex-wrap justify-content-md-end gap-2">
+        {% if report.front_image %}
+          <img src="{{report.front_image.url }}"
+               alt="Front label"
+               class="img-thumbnail"
+               style="max-height:200px; object-fit:cover;">
+        {% endif %}
+        {% if report.back_image %}
+          <img src="{{report.back_image.url }}"
+               alt="Back label"
+               class="img-thumbnail"
+               style="max-height:200px; object-fit:cover;">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- USER CONTENT & AI DATA -->
+  <div class="row g-3 mb-4">
+
+    <!-- User Content -->
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header small text-uppercase text-muted fw-semibold">
+          User Content
+        </div>
+        <div class="card-body p-3">
+          <table class="table table-sm mb-0">
+            <tbody>
+              <tr>
+                <th scope="row" class="w-25">Brand</th>
+                <td>{{ report.brand|default:"—" }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Product Name</th>
+                <td>{{ report.product_name|default:"—" }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Type</th>
+                <td>{{ report.product_type|default:"—" }}</td>
+              </tr>
+              <tr>
+                <th scope="row">ABV (%)</th>
+                <td>
+                  {% if report.abv is not None %}
+                    {{ report.abv }}
+                  {% else %}
+                    <span class="text-muted fst-italic">Not set</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Volume (ml)</th>
+                <td>
+                  {% if report.milliliters is not None %}
+                    {{ report.milliliters }}
+                  {% else %}
+                    <span class="text-muted fst-italic">Not set</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Volume (fl oz)</th>
+                <td>
+                  {% if report.fl_oz is not None %}
+                    {{ report.fl_oz }}
+                  {% else %}
+                    <span class="text-muted fst-italic">Not set</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Warning Label</th>
+                <td>
+                  {% if report.warning_label %}
+                    Yes
+                  {% else %}
+                    No
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Warning Text</th>
+                <td>
+                  {% if report.warning_text %}
+                    {{ report.warning_text }}
+                  {% else %}
+                    <span class="text-muted fst-italic">None provided</span>
+                  {% endif %}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Data -->
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header small text-uppercase text-muted fw-semibold">
+          AI Data
+        </div>
+        <div class="card-body p-3">
+          <table class="table table-sm mb-0">
+            <tbody>
+              <tr>
+                <th scope="row" class="w-25">Brand</th>
+                <td>{{ report.ai_brand|default:"—" }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Product Name</th>
+                <td>{{ report.ai_product_name|default:"—" }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Type</th>
+                <td>{{ report.ai_product_type|default:"—" }}</td>
+              </tr>
+              <tr>
+                <th scope="row">ABV (%)</th>
+                <td>
+                  {% if report.ai_abv is not None %}
+                    {{ report.ai_abv }}
+                  {% else %}
+                    <span class="text-muted fst-italic">Not set</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Volume (ml)</th>
+                <td>
+                  {% if report.ai_milliliters is not None %}
+                    {{ report.ai_milliliters }}
+                  {% else %}
+                    <span class="text-muted fst-italic">Not set</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Volume (fl oz)</th>
+                <td>
+                  {% if report.ai_fl_oz is not None %}
+                    {{ report.ai_fl_oz }}
+                  {% else %}
+                    <span class="text-muted fst-italic">Not set</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Warning Label</th>
+                <td>
+                  {% if report.ai_warning_label %}
+                    Yes
+                  {% else %}
+                    No
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Warning Text</th>
+                <td>
+                  {% if report.ai_warning_text %}
+                    {{ report.ai_warning_text }}
+                  {% else %}
+                    <span class="text-muted fst-italic">None detected</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">AI Payload</th>
+                <td class="small text-monospace">
+                  {% if report.ai_payload %}
+                    {{ report.ai_payload }}
+                  {% else %}
+                    <span class="text-muted fst-italic">No payload</span>
+                  {% endif %}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MATCH SCORES & NOTES -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header small text-uppercase text-muted fw-semibold">
+          Match Scores &amp; Notes
+        </div>
+
+
+        {% if report.ai_error %}
+            <div class="card-body p-3">
+              <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th scope="col">General Errors</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{ report.ai_error }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        {% endif %}
+
+
+
+        <div class="card-body p-3">
+          <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">Match Score</th>
+                  <th scope="col">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Brand -->
+                <tr>
+                  <td>Brand</td>
+                  <td>
+                    {% if report.match_brand is not None %}
+                      <span class="badge
+                        {% if report.match_brand >= 90 %} bg-success
+                        {% elif report.match_brand >= 60 %} bg-warning text-dark
+                        {% else %} bg-danger
+                        {% endif %}
+                      ">
+                        {{ report.match_brand|floatformat:2 }} %
+                      </span>
+                    {% else %}
+                      <span class="text-muted fst-italic">No score</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if report.note_brand %}
+                      {{ report.note_brand }}
+                    {% else %}
+                      <span class="text-muted fst-italic">No notes</span>
+                    {% endif %}
+                  </td>
+                </tr>
+
+                <!-- Product Name -->
+                <tr>
+                  <td>Product Name</td>
+                  <td>
+                    {% if report.match_product_name is not None %}
+                      <span class="badge
+                        {% if report.match_product_name >= 90 %} bg-success
+                        {% elif report.match_product_name >= 60 %} bg-warning text-dark
+                        {% else %} bg-danger
+                        {% endif %}
+                      ">
+                        {{ report.match_product_name|floatformat:2 }} %
+                      </span>
+                    {% else %}
+                      <span class="text-muted fst-italic">No score</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if report.note_product_name %}
+                      {{ report.note_product_name }}
+                    {% else %}
+                      <span class="text-muted fst-italic">No notes</span>
+                    {% endif %}
+                  </td>
+                </tr>
+
+                <!-- Product Type -->
+                <tr>
+                  <td>Product Type</td>
+                  <td>
+                    {% if report.match_product_type is not None %}
+                      <span class="badge
+                        {% if report.match_product_type >= 90 %} bg-success
+                        {% elif report.match_product_type >= 60 %} bg-warning text-dark
+                        {% else %} bg-danger
+                        {% endif %}
+                      ">
+                        {{ report.match_product_type|floatformat:2 }} %
+                      </span>
+                    {% else %}
+                      <span class="text-muted fst-italic">No score</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if report.note_product_type %}
+                      {{ report.note_product_type }}
+                    {% else %}
+                      <span class="text-muted fst-italic">No notes</span>
+                    {% endif %}
+                  </td>
+                </tr>
+
+                <!-- ABV -->
+                <tr>
+                  <td>ABV</td>
+                  <td>
+                    {% if report.match_abv is not None %}
+                      <span class="badge
+                        {% if report.match_abv >= 90 %} bg-success
+                        {% elif report.match_abv >= 60 %} bg-warning text-dark
+                        {% else %} bg-danger
+                        {% endif %}
+                      ">
+                        {{ report.match_abv|floatformat:2 }} %
+                      </span>
+                    {% else %}
+                      <span class="text-muted fst-italic">No score</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if report.note_abv %}
+                      {{ report.note_abv }}
+                    {% else %}
+                      <span class="text-muted fst-italic">No notes</span>
+                    {% endif %}
+                  </td>
+                </tr>
+
+                <!-- Milliliters -->
+                <tr>
+                  <td>Milliliters</td>
+                  <td>
+                    {% if report.match_milliliters is not None %}
+                      <span class="badge
+                        {% if report.match_milliliters >= 90 %} bg-success
+                        {% elif report.match_milliliters >= 60 %} bg-warning text-dark
+                        {% else %} bg-danger
+                        {% endif %}
+                      ">
+                        {{ report.match_milliliters|floatformat:2 }} %
+                      </span>
+                    {% else %}
+                      <span class="text-muted fst-italic">No score</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if report.note_milliliters %}
+                      {{ report.note_milliliters }}
+                    {% else %}
+                      <span class="text-muted fst-italic">No notes</span>
+                    {% endif %}
+                  </td>
+                </tr>
+
+                <!-- Fluid Ounces -->
+                <tr>
+                  <td>Fluid Ounces</td>
+                  <td>
+                    {% if report.match_fl_oz is not None %}
+                      <span class="badge
+                        {% if report.match_fl_oz >= 90 %} bg-success
+                        {% elif report.match_fl_oz >= 60 %} bg-warning text-dark
+                        {% else %} bg-danger
+                        {% endif %}
+                      ">
+                        {{ report.match_fl_oz|floatformat:2 }} %
+                      </span>
+                    {% else %}
+                      <span class="text-muted fst-italic">No score</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if report.note_fl_oz %}
+                      {{ report.note_fl_oz }}
+                    {% else %}
+                      <span class="text-muted fst-italic">No notes</span>
+                    {% endif %}
+                  </td>
+                </tr>
+
+                <!-- Warning Label -->
+                <tr>
+                  <td>Warning Label</td>
+                  <td>
+                    {% if report.match_warning_label is not None %}
+                      <span class="badge
+                        {% if report.match_warning_label >= 90 %} bg-success
+                        {% elif report.match_warning_label >= 60 %} bg-warning text-dark
+                        {% else %} bg-danger
+                        {% endif %}
+                      ">
+                        {{ report.match_warning_label|floatformat:2 }} %
+                      </span>
+                    {% else %}
+                      <span class="text-muted fst-italic">No score</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if report.note_warning_label %}
+                      {{ report.note_warning_label }}
+                    {% else %}
+                      <span class="text-muted fst-italic">No notes</span>
+                    {% endif %}
+                  </td>
+                </tr>
+
+                <!-- Warning Text -->
+                <tr>
+                  <td>Warning Text</td>
+                  <td>
+                    {% if report.match_warning_text is not None %}
+                      <span class="badge
+                        {% if report.match_warning_text >= 90 %} bg-success
+                        {% elif report.match_warning_text >= 60 %} bg-warning text-dark
+                        {% else %} bg-danger
+                        {% endif %}
+                      ">
+                        {{ report.match_warning_text|floatformat:2 }} %
+                      </span>
+                    {% else %}
+                      <span class="text-muted fst-italic">No score</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if report.note_warning_text %}
+                      {{ report.note_warning_text }}
+                    {% else %}
+                      <span class="text-muted fst-italic">No notes</span>
+                    {% endif %}
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+{% endblock %}
+
+
+{% block extra_footer_tags %}
+<script src="{% static 'MASTER/js/bzinfinite.js'%}" type="text/javascript" ></script>
+<script src="{% static 'MASTER/js/infinite.min.js'%}" type="text/javascript" ></script>
+<script src="{% static 'MASTER/js/bzparticle.js'%}" type="text/javascript" ></script>
+<script src="{% static 'MASTER/js/bzspotlight.js'%}" type="text/javascript" ></script>
+{% endblock %}

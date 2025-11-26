@@ -1,0 +1,47 @@
+.element{
+  overflow: hidden;
+  outline: 1px solid rgba(35,35,35,1);
+
+  transition: background-color 0.2s linear;
+  cursor: pointer;
+  span{
+    user-select: none;
+  }
+}
+
+
+.element:before,
+.element:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: opacity .1s linear;
+
+}
+
+.element:before {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle at center, #FFFFFFb0 0%, transparent 50%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  transform: translate(
+    calc( var(--px) * 1px ),
+    calc( var(--py) * 1px )
+  ) translate(-50%, -50%);
+}
+
+.element:after {
+  background: inherit;
+  margin: 5px;
+  top: 0; right: 0; bottom: 0; left: 0;
+  opacity: 0;
+  transition-delay: 0.05s;
+}
+
+
+.element:hover:before { opacity: 0.6; }
+.element:hover:after { opacity: 0.85; transition-delay: 0s; }

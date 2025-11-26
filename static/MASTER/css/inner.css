@@ -1,0 +1,125 @@
+/*global*/
+::placeholder {color: #bcbcbc !important;}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #bcbcbc !important;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #bcbcbc !important;
+}
+
+
+/*page*/
+.main_tile,
+.the_main_bkg{background-size: 100%;
+  -webkit-transition: background-size 1s ease;
+  -moz-transition: background-size 1s ease;
+  -o-transition: background-size 1s ease;
+  -ms-transition: background-size 1s ease;
+  transition: background-size 1s ease;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+  -webkit-transform: translateZ(0) scale(1.0, 1.0);
+}
+
+/*Indeed*/
+.indeed {
+  max-width: 13rem;
+  transition: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+.indeed:hover {
+    box-shadow: none !important;
+}
+
+
+
+
+  .the_main_title {
+      color: #fff;
+      background: rgb(103 14 13 / 80%);
+      width: fit-content;
+      display: block;
+      margin: auto;
+      padding: 1.25rem 2rem;
+      margin-bottom: .5rem;
+      z-index: 2;
+      /* position: relative; */
+      border-radius: 0.1rem;
+      margin: 0;
+      position: absolute;
+      top: 66%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      text-align: center;
+      max-width: fit-content;
+      min-width: 20rem;
+  }
+
+  .the_main_title h1 {
+  font-size: 3rem;
+  transition: 0.3s;
+  transition-timing-function: ease-in-out;
+  }
+
+.the_main_bkg {
+width: 100%;
+height: 0;
+padding-top: 38%;
+position: relative;
+}
+
+
+@media only screen and (max-width: 2500px) {
+    .the_main_bkg {
+    padding-top: 40%;
+    }
+}
+
+
+@media only screen and (max-width: 1660px) {
+    .the_main_bkg {
+    padding-top: 55%;
+    }
+    .the_main_title h1 {
+    font-size: 2.5rem;
+    }
+}
+
+
+
+@media only screen and (max-width: 991px) {
+  .the_main_bkg{
+      background-size: contain;
+      padding-bottom: 5rem !IMPORTANT;
+      padding-top: 53.7%;
+    }
+  .product-btn1 {margin-bottom: .5rem;}
+  .contact_btn3 {margin-bottom: 1rem;}
+  .the_main_title {margin-top: 2rem;}
+  .the_main_title h1 {font-size: 1.75rem;}
+}
+
+
+@media only screen and (max-width: 767px) {
+  .the_main_bkg{
+      background-size: contain;
+      padding-bottom: 5rem !IMPORTANT;
+      padding-top: 52.7%;
+    }
+    .the_main_title {
+    background: rgb(103 14 13 / 76%);
+  }
+}
+
+
+@media only screen and (max-width: 575.98px) {
+  .the_main_bkg{
+      background-size: contain;
+      padding-bottom: 5rem !IMPORTANT;
+      padding-top: 55%;
+    }
+    .the_main_title h1 {font-size: 1.25rem;}
+}
