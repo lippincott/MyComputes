@@ -151,14 +151,9 @@ You’ll need:
 
 - Python 3.10+  
 - Git  
-- PostgreSQL 13+  
+- PostgreSQL 13+  / SQLLITE (is fine)
 - A working OpenAI (or compatible) API key
 
-On Ubuntu, a rough setup might look like:
-
-```bash
-sudo apt update
-sudo apt install python3 python3-venv python3-pip git postgresql postgresql-contrib
 
 ### 2. Clone the Repo
 ```
@@ -170,14 +165,11 @@ cd MyComputes
 ```
 python3 -m venv venv
 source venv/bin/activate
-
 ```
+
 
 ### 4. Install dependencies
 ```
-pip install --upgrade pip
-pip install -r requirements.txt
-
 pip install Pillow OpenAI
 ```
 
@@ -201,17 +193,20 @@ python manage.py runserver
 ```
 
 By default, the site will be available at:
-
 http://127.0.0.1:8000/
 
 ## Running Tests
+1) Upload the form data
+2) Upload a sample image
+3) Press "Create Report"
+4) That's it! The report automatically generates. 
+
 If/when tests are added, you can run them with:
 ```
 python manage.py test
-
 ```
 
-## Test Images
+## Note: Test Images
 There are sample images available for testing!
 
 ## Liceense
