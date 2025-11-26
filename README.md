@@ -211,6 +211,9 @@ python manage.py test
 
 ```
 
+## Test Images
+There are sample images available for testing!
+
 ## Liceense
 
 If you want, I can tweak this to exactly match your `urls.py` (e.g., whatever the landing path for the reporter UI is) or add a short “Quick Demo Flow” section once you settle on the main user flow.
